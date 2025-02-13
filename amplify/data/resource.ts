@@ -9,9 +9,22 @@ specifies that any user authenticated via an API key can "create", "read",
 const schema = a.schema({
   Todo: a
     .model({
-      content: a.string(),
+      folderName: a.string(),
+      subFolderName: a.string(),
+      range: a.string(),
+      category: a.string(),
+      filePath: a.string(),
+      area: a.string(),
+      year: a.string(),
+      protocolNo: a.string(),
+      buildingBlock: a.string(),
+      aproovalNo:  a.string()
     })
-    .authorization((allow) => [allow.publicApiKey()]),
+    .authorization((allow) => [
+      allow.authenticated().to(["read", "create", "delete"]),
+      allow.guest().to(['read','create','delete']),
+      allow.publicApiKey().to(['read','create','delete']),
+    ])
 });
 
 export type Schema = ClientSchema<typeof schema>;
